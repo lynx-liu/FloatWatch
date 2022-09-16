@@ -13,18 +13,35 @@ android {
     }
 
     signingConfigs {
-        release {
-            storeFile file("vrviu.keystore")
-            storePassword '123456'
-            keyAlias 'platform'
-            keyPassword '123456'
-        }
+        def platformType = getPlatform()
+        if(platformType.equals("kona")) {
+            release {
+                storeFile file("kona.keystore")
+                storePassword '123456'
+                keyAlias 'platform'
+                keyPassword '123456'
+            }
 
-        debug {
-            storeFile file("vrviu.keystore")
-            storePassword '123456'
-            keyAlias 'platform'
-            keyPassword '123456'
+            debug {
+                storeFile file("kona.keystore")
+                storePassword '123456'
+                keyAlias 'platform'
+                keyPassword '123456'
+            }
+        } else {
+            release {
+                storeFile file("vrviu.keystore")
+                storePassword '123456'
+                keyAlias 'platform'
+                keyPassword '123456'
+            }
+
+            debug {
+                storeFile file("vrviu.keystore")
+                storePassword '123456'
+                keyAlias 'platform'
+                keyPassword '123456'
+            }
         }
     }
 
@@ -37,6 +54,15 @@ android {
         debug {
             minifyEnabled true
         }
+    }
+}
+
+def static getPlatform() {
+    def adbCommand = 'adb shell getprop ro.product.name'
+    Process process = adbCommand.execute()
+    process.in.eachLine { processing ->
+        println processing
+        return processing
     }
 }
 
