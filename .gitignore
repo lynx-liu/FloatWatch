@@ -1,0 +1,8 @@
+app/build/
+.idea/
+.gradle/
+gradlew
+gradlew.bat
+java_pid8356.hprof
+local.properties
+gradle/
