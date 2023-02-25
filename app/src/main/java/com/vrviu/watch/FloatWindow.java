@@ -2,6 +2,7 @@ package com.vrviu.watch;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,6 +56,7 @@ public class FloatWindow {
             //触摸事件
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                Log.d("onTouch","action:"+event.getAction());
                 boolean ret = false;
                 switch (event.getAction()){
                     case MotionEvent.ACTION_DOWN:
