@@ -2,6 +2,7 @@ package com.vrviu.watch;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -25,7 +26,11 @@ public class FloatWindow {
         //窗口的布局样式
         mLayout = new WindowManager.LayoutParams();
         //设置窗体显示的类型为系统提示
-        mLayout.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mLayout.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            mLayout.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+        }
 
         //设置窗体焦点和触摸
         //不能获取案件输入焦点
