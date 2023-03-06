@@ -9,10 +9,11 @@ import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class DesktopLayout extends LinearLayout {
+public abstract class DesktopLayout extends LinearLayout implements PointLocationView.CallBack {
     private final View view;
     private final TextView time;
     private int index = 0;
+    private PointLocationView pv = null;
     private final int[] color = {Color.RED,Color.GREEN,Color.BLUE};
 
     public DesktopLayout(Context context) {
@@ -26,6 +27,26 @@ public class DesktopLayout extends LinearLayout {
         addView(view);
 
         time = (TextView) findViewById(R.id.textViewTime);
+        pv = findViewById(R.id.pv_touch);
+        pv.setCallBack(this);
+    }
+
+    public abstract void onHidePointLocation();
+
+    public void showPointLocation() {
+        GradientDrawable background = (GradientDrawable)getResources().getDrawable(R.drawable.shape);
+        background.setColor(Color.WHITE);
+        background.setAlpha(0xAA);
+        view.setBackgroundDrawable(background);
+
+        time.setTextColor(Color.BLACK);
+        pv.setVisibility(View.VISIBLE);
+    }
+
+    public void hidePointLocation() {
+        changeBackground();
+        time.setTextColor(Color.WHITE);
+        pv.setVisibility(View.GONE);
     }
 
     //对外接口用来改变显示内容
@@ -38,5 +59,11 @@ public class DesktopLayout extends LinearLayout {
         background.setColor(color[index++%color.length]);
         background.setAlpha(0xAA);
         view.setBackgroundDrawable(background);
+    }
+
+    @Override
+    public void finish() {
+        onHidePointLocation();
+        hidePointLocation();
     }
 }

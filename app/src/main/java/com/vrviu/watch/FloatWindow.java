@@ -49,7 +49,26 @@ public class FloatWindow {
     }
 
     public void createDesktopLayout(){
-        mDesktopLayout = new DesktopLayout(context);
+        mDesktopLayout = new DesktopLayout(context) {
+            @Override
+            public void onHidePointLocation() {
+                mLayout.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                mLayout.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            }
+        };
+
+        mDesktopLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.d("llx","onLongClick");
+                //设置窗体高度和宽度
+                mLayout.width = WindowManager.LayoutParams.FILL_PARENT;
+                mLayout.height = WindowManager.LayoutParams.FILL_PARENT;
+                mDesktopLayout.showPointLocation();
+                return false;
+            }
+        });
+
         mDesktopLayout.setOnTouchListener(new View.OnTouchListener() {
             private float lastX; //上一次位置的X.Y坐标
             private float lastY;
@@ -62,13 +81,11 @@ public class FloatWindow {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d("onTouch","action:"+event.getAction());
-                boolean ret = false;
                 switch (event.getAction()){
                     case MotionEvent.ACTION_DOWN:
                         lastX = event.getRawX();
                         lastY = event.getRawY();
                         mDesktopLayout.changeBackground();
-                        ret =true;
                         break;
                     case MotionEvent.ACTION_MOVE:
                         nowX = event.getRawX();
@@ -87,7 +104,7 @@ public class FloatWindow {
                     case MotionEvent.ACTION_UP:
                         break;
                 }
-                return ret;
+                return false;
             }
         });
     }

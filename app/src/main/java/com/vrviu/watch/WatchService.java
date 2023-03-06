@@ -72,7 +72,7 @@ public class WatchService extends Service {
             switch (msg.what){
                 case MSG_UPDATE_TIME:
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss SSS");
-                    floatWindow.mDesktopLayout.setTextTime(sdf.format(new Date()));
+                    floatWindow.mDesktopLayout.setTextTime(sdf.format(new Date(System.currentTimeMillis())));
                     floatWindow.mWindowManager.updateViewLayout(floatWindow.mDesktopLayout,floatWindow.mLayout);
                     mhandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME,5);
                     break;
